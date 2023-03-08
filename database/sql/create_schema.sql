@@ -1,0 +1,2 @@
+CREATE SCHEMA stage;
+CREATE SCHEMA prod;

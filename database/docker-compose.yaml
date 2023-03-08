@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  postgres_database:
+    image: postgres:12
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: database
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d database" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - project-net
+
+networks:
+  project-net:
+    name: custom_network
